@@ -41,27 +41,6 @@
 - Java JDK (версия 11+)
 - Maven (версия 3.6+)
 
-
-## Архитектура проекта
-```
-sentiment-analysis-app/
-├── src/                          # Исходный код Java-приложения
-│   ├── main/java/com/sentiment/  # Основные классы приложения
-│   └── main/resources/           # Конфигурационные файлы
-├── docker/
-│   └── Dockerfile               # Docker-образ приложения
-├── kubernetes/
-│   ├── deployment.yaml          # Deployment манифест
-│   ├── service.yaml             # Service манифест
-│   ├── configmap.yaml           # Конфигурации
-│   └── prometheus/              # Мониторинг
-│       ├── prometheus.yaml      # Настройка Prometheus
-│       └── grafana/             # Дашборды Grafana
-├── docs/
-│   └── report.md               # Аналитический отчет
-└── scripts/
-    └── deploy.sh               # Скрипты развертывания
-```
 ## Инструкция по развертыванию
 
 ### Шаг 1: Установка Minikube
@@ -77,8 +56,8 @@ brew install minikube
 choco install minikube
 ```
 ### Шаг 2: Запуск Minikube кластера
-#### Запуск кластера с дополнительными ресурсами
 ```
+# Запуск кластера с дополнительными ресурсами
 minikube start --memory=4096 --cpus=2 --disk-size=20g
 ```
 #### Включение дополнений
@@ -87,35 +66,31 @@ minikube addons enable metrics-server
 minikube addons enable dashboard
 ```
 ### Шаг 3: Проверка установки
-#### Проверка статуса Minikube
 ```
+# Проверка статуса Minikube
 minikube status
-```
-#### Проверка версии kubectl
-```
+# Проверка версии kubectl
 kubectl version --client
-```
-#### Доступ к Kubernetes Dashboard
-```
+#Доступ к Kubernetes Dashboard
 minikube dashboard
 ```
 ### Шаг 4: Сборка приложения
-#### Сборка Java-приложения
 ```
+# Сборка Java-приложения
 mvn clean package
 ```
-#### Сборка Docker-образа
-```eval $(minikube docker-env)
+```
+# Сборка Docker-образа
+eval $(minikube docker-env)
 docker build -t sentiment-analysis:latest -f docker/Dockerfile .
 ```
 ### Шаг 5: Развертывание в Kubernetes
-#### Применение манифестов
-```kubectl apply -f kubernetes/configmap.yaml
+```
+# Применение манифестов
+kubectl apply -f kubernetes/configmap.yaml
 kubectl apply -f kubernetes/deployment.yaml
 kubectl apply -f kubernetes/service.yaml
-```
-#### Проверка развертывания
-```
+# Проверка развертывания
 kubectl get all
 kubectl get pods
 kubectl get services
