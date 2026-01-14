@@ -66,31 +66,38 @@ minikube addons enable metrics-server
 minikube addons enable dashboard
 ```
 ### Шаг 3: Проверка установки
+
+#### Проверка статуса Minikube
 ```
-# Проверка статуса Minikube
 minikube status
-# Проверка версии kubectl
+```
+#### Проверка версии kubectl
+```
 kubectl version --client
-#Доступ к Kubernetes Dashboard
+```
+#### Доступ к Kubernetes Dashboard
+```
 minikube dashboard
 ```
 ### Шаг 4: Сборка приложения
+#### Сборка Java-приложения
 ```
-# Сборка Java-приложения
 mvn clean package
 ```
+#### Сборка Docker-образа
 ```
-# Сборка Docker-образа
 eval $(minikube docker-env)
 docker build -t sentiment-analysis:latest -f docker/Dockerfile .
 ```
 ### Шаг 5: Развертывание в Kubernetes
+#### Применение манифестов
 ```
-# Применение манифестов
 kubectl apply -f kubernetes/configmap.yaml
 kubectl apply -f kubernetes/deployment.yaml
 kubectl apply -f kubernetes/service.yaml
-# Проверка развертывания
+```
+#### Проверка развертывания
+```
 kubectl get all
 kubectl get pods
 kubectl get services
